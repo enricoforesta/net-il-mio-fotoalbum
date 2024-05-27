@@ -14,7 +14,7 @@ namespace net_il_mio_fotoalbum.Models
         public string ImgSrc => ImageFile != null ? $"data:image/png;base64,{Convert.ToBase64String(ImageFile)}" : "";
 
         // classe ingredienti con collegamento N-N
-         public List<Categoria> Categoria { get; set; }
+        public List<Categoria> Categoria { get; set; }
 
         public Foto() { }
 
@@ -25,6 +25,11 @@ namespace net_il_mio_fotoalbum.Models
             this.Visibile = visibile;
             this.Categoria = categoria;
         }
+        // funzione che mi stampi tutte le categorie
+        public string TutteLeCategorie()
+        {
+            return string.Join(", ", Categoria.Select(c => c.Nome));
+        }
     }
-      
+
 }
