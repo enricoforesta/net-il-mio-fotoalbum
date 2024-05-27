@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using net_il_mio_fotoalbum.Data;
 
 namespace net_il_mio_fotoalbum.Models
 {
@@ -19,6 +20,17 @@ namespace net_il_mio_fotoalbum.Models
             this.Foto = foto;
             this.Categorie = categorie;
             this.SelezionaCategorie = foto.Categoria?.Select(c => c.Id.ToString()).ToList() ?? new List<string>();
+        }
+
+        public static List<SelectListItem> CreaCategorie()
+        {
+            List<SelectListItem> list = new List<SelectListItem>();
+            var ingredienti = FotoManager.TutteCategorie(); 
+            foreach (var ingrediente in ingredienti)
+            {
+                list.Add(new SelectListItem(ingrediente.Nome, ingrediente.Id.ToString()));
+            }
+            return list;
         }
 
         public byte[] SetImage()

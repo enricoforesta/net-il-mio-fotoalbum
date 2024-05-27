@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using net_il_mio_fotoalbum.Data;
+using net_il_mio_fotoalbum.Models;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
@@ -13,46 +15,73 @@ namespace net_il_mio_fotoalbum.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(FotoManager.TutteFoto());
         }
-        public IActionResult Details()
+        public IActionResult Details(int id)
         {
-            return View();
+            var foto = FotoManager.CercaPerId(id);
+            if (foto == null)
+                return NotFound();
+            return View(foto);
         }
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            FotoFormModel model = new FotoFormModel(new Foto(), FotoFormModel.CreaCategorie() );
+            return View(model);
         }
 
-        /* [HttpPost]
-        public IActionResult Create()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(FotoFormModel data)
         {
-            return View();
-        }*/
+            if (!ModelState.IsValid)
+            {
+                data.Categorie = FotoFormModel.CreaCategorie();
+                data.SetImage();
+                return View(data);
+            }
+            data.SetImage();
+            FotoManager.InserisciFoto(data.Foto, data.SelezionaCategorie);
+            return RedirectToAction("Index");
+        }
 
         [HttpGet]
-        public IActionResult Update()
+        public IActionResult Update(int id)
         {
-            return View();
+            var fotoDaModificare = FotoManager.CercaPerId(id);
+            if (fotoDaModificare == null)
+                return NotFound();
+            FotoFormModel model = new FotoFormModel(fotoDaModificare, FotoFormModel.CreaCategorie());
+            return View(model);
         }
-        /*
-        [HttpPost]
-        public IActionResult Update()
-        {
-            return View();
-        }*/
 
-        [HttpGet]
-        public IActionResult Delete()
-        {
-            return View();
-        }
-        /*
         [HttpPost]
-        public IActionResult Delete()
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, FotoFormModel data)
         {
-            return View();
-        }*/
+            if (!ModelState.IsValid)
+            {
+                data.Categorie = FotoFormModel.CreaCategorie();
+                data.SetImage();
+                return View(data);
+            }
+
+            if (!FotoManager.ModificaFoto(id, data.Foto.Titolo, data.Foto.Descrizione, data.Foto.Visibile, data.SelezionaCategorie, data.SetImage()))
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Index");
+        }
+
+      
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            if (!FotoManager.EliminaFoto(id))
+                return NotFound();
+            return RedirectToAction("Index");
+        }
     }
 }
