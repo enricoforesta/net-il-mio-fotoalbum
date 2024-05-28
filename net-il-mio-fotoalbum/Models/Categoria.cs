@@ -7,8 +7,10 @@ namespace net_il_mio_fotoalbum.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required(ErrorMessage = "Il nome è necessario")]
+        [StringLength(40, ErrorMessage = "Il nome deve avere max 40 caratteri")]
         public string Nome { get; set; }
-        public List<Foto> Foto { get; set; }
+        public List<Foto>? Foto { get; set; }
 
         public Categoria() { }
         public Categoria(string nome, List<Foto> foto) {

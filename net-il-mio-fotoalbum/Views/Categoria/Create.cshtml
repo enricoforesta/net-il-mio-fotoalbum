@@ -1,0 +1,19 @@
+﻿@model Categoria
+
+<div class="text-end">
+    <a href="@Url.Action("index", "Categoria")" class="fs-2 me-md-2"><i class="bi bi-arrow-left"></i></a>
+</div>
+
+<div class="text-center container-xxl">
+    <form asp-controller="Categoria" asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="m-5">
+            <label for="Nome" class="form-label "><strong>Nome:</strong></label>
+            <input asp-for="@Model.Nome" type="text" class="form-control w-50 my-0 mx-auto" id="Titolo" placeholder="Inserisci nome">
+            <span asp-validation-for="@Model.Nome" class=" d-inline-block mt-2 text-light bg-primary text-uppercase px-5"></span>
+        </div>
+        <div class="text-end">
+            <input type="submit" class="btn btn-primary me-2 mb-5" value="Crea Categoria">
+        </div>
+    </form>
+</div>

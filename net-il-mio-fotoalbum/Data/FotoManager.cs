@@ -12,13 +12,6 @@ namespace net_il_mio_fotoalbum.Data
             return db.Foto.ToList();
         }
 
-        public static List<Categoria> TutteCategorie()
-        {
-            using FotoContext db = new FotoContext();
-
-            return db.Categoria.ToList();
-        }
-
         public static Foto CercaPerId(int id, bool include = true)
         {
             using FotoContext db = new FotoContext();
@@ -28,6 +21,7 @@ namespace net_il_mio_fotoalbum.Data
             }
             return db.Foto?.FirstOrDefault(f => f.Id == id);
         }
+
 
         public static void InserisciFoto(Foto foto, List<string> categorie)
         {

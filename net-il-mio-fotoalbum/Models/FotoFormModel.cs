@@ -22,13 +22,14 @@ namespace net_il_mio_fotoalbum.Models
             this.SelezionaCategorie = foto.Categorie?.Select(c => c.Id.ToString()).ToList() ?? new List<string>();
         }
 
+
         public static List<SelectListItem> CreaCategorie()
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            var ingredienti = FotoManager.TutteCategorie(); 
-            foreach (var ingrediente in ingredienti)
+            var categorie = CategoriaManager.TutteCategorie(); 
+            foreach (var item in categorie)
             {
-                list.Add(new SelectListItem(ingrediente.Nome, ingrediente.Id.ToString()));
+                list.Add(new SelectListItem(item.Nome, item.Id.ToString()));
             }
             return list;
         }

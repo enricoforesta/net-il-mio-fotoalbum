@@ -1,0 +1,63 @@
+﻿@model List<Categoria>
+@{
+    ViewData["Title"] = "Categoria";
+}
+
+<div class="text-center container-xxl">
+    <h1 style="color: var(--my-text-color-primary);">@ViewData["Title"]</h1>
+
+  
+    <div class="d-flex justify-content-between">
+        @if (User.IsInRole("Admin"))
+        {
+            <a href="@Url.Action("Index", "Foto")" class="btn btn-primary me-md-2 text-white">Mostra le foto</a>
+            <a href="@Url.Action("Create", "Categoria")" class="btn btn-primary me-md-2 text-white">Aggiungi Categoria</a>
+        }
+    </div>
+    @if (Model.Count == 0)
+    {
+        <h2 class="bg-gradient">Nessuna Categoria disponibile</h2>
+    }
+    else
+    {
+
+
+        <table class="table m-5 border-0">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Nome</th>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <th scope="col">Elimina</th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody style="vertical-align:unset;">
+                @{
+                    int i = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td>@item.Nome</td>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <td class="d-flex align-items-center justify-content-around border-0">
+                                    <form asp-controller="Categoria" asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn"><i class="bi bi-trash"></i> </button>
+                                    </form>
+                                </td>
+                            }
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    }
+</div>
