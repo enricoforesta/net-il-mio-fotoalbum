@@ -6,7 +6,7 @@ namespace net_il_mio_fotoalbum.Models
     public class FotoFormModel
     {
         public Foto? Foto { get; set; }
-        public List<SelectListItem> Categorie { get; set; }
+        public List<SelectListItem>? Categorie { get; set; }
         public List<string>? SelezionaCategorie { get; set; }
 
         public IFormFile? ImageFormFile { get; set; }
@@ -19,7 +19,7 @@ namespace net_il_mio_fotoalbum.Models
         {
             this.Foto = foto;
             this.Categorie = categorie;
-            this.SelezionaCategorie = foto.Categoria?.Select(c => c.Id.ToString()).ToList() ?? new List<string>();
+            this.SelezionaCategorie = foto.Categorie?.Select(c => c.Id.ToString()).ToList() ?? new List<string>();
         }
 
         public static List<SelectListItem> CreaCategorie()

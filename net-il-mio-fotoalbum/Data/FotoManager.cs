@@ -24,7 +24,7 @@ namespace net_il_mio_fotoalbum.Data
             using FotoContext db = new FotoContext();
             if (include)
             {
-                return db.Foto?.Where(f => f.Id == id).Include(f => f.Categoria).FirstOrDefault();
+                return db.Foto?.Where(f => f.Id == id).Include(f => f.Categorie).FirstOrDefault();
             }
             return db.Foto?.FirstOrDefault(f => f.Id == id);
         }
@@ -32,7 +32,7 @@ namespace net_il_mio_fotoalbum.Data
         public static void InserisciFoto(Foto foto, List<string> categorie)
         {
             using FotoContext db = new FotoContext();
-            foto.Categoria = db.Categoria.Where(c => categorie.Contains(c.Id.ToString())).ToList();
+            foto.Categorie = db.Categoria.Where(c => categorie.Contains(c.Id.ToString())).ToList();
             db.Foto.Add(foto);
             db.SaveChanges();
         }
@@ -40,14 +40,14 @@ namespace net_il_mio_fotoalbum.Data
         public static bool ModificaFoto(int id, string titolo, string descrizione, bool visibile, List<string> selezionaCategorie, byte[] immagine)
         {
             using FotoContext db = new FotoContext();
-            var fotoDaModificare = db.Foto.Where(f => f.Id == id).Include(f => f.Categoria).FirstOrDefault();
+            var fotoDaModificare = db.Foto.Where(f => f.Id == id).Include(f => f.Categorie).FirstOrDefault();
             if (fotoDaModificare == null)
                 return false;
             fotoDaModificare.Titolo = titolo;
             fotoDaModificare.Descrizione = descrizione;
             fotoDaModificare.Visibile = visibile;
-            fotoDaModificare.Categoria.Clear();
-            fotoDaModificare.Categoria = db.Categoria.Where(c => selezionaCategorie.Contains(c.Id.ToString())).ToList();
+            fotoDaModificare.Categorie.Clear();
+            fotoDaModificare.Categorie = db.Categoria.Where(c => selezionaCategorie.Contains(c.Id.ToString())).ToList();
             if (immagine != null)
                 fotoDaModificare.ImageFile = immagine;
             db.SaveChanges();

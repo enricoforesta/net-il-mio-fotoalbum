@@ -16,3 +16,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+tr {
+    border-style: hidden;
+}
+
+a {
+    color: currentColor !important;
+    text-decoration: none;
+}

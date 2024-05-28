@@ -1,5 +1,48 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model FotoFormModel
+
+<div class="text-end">
+    <a href="@Url.Action("index", "Foto")" class="fs-2 me-md-2"><i class="bi bi-arrow-left"></i></a>
+</div>
+
+<div class="text-center container-xxl">
+    <form asp-controller="Foto" asp-action="Update" asp-route-id="@Model.Foto.Id" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div class="m-5">
+            <label for="Titolo" class="form-label "><strong>Titolo:</strong></label>
+            <input asp-for="Foto.Titolo" type="text" class="form-control w-50 my-0 mx-auto" id="Titolo" placeholder="Inserisci titolo">
+            <span asp-validation-for="Foto.Titolo" class=" d-inline-block mt-2 text-light bg-primary text-uppercase px-5"></span>
+        </div>
+        <div class="m-5">
+            <label for="Descrizione" class="form-label"><strong>Descrizione</strong></label>
+            <textarea asp-for="Foto.Descrizione" class="form-control w-50 my-0 mx-auto" id="Descrizione" style="height: 100px" placeholder="Inserisci Descrizione"></textarea>
+            <span asp-validation-for="Foto.Descrizione" class="d-inline-block mt-2 text-light bg-primary text-uppercase px-5"></span>
+        </div>
+        <div class="m-5">
+            <label class="form-label" for="Visibile"><strong>Visibile:</strong></label>
+            <input asp-for="Foto.Visibile" type="checkbox" class="form-check-input" id="Visibile">
+        </div>
+        <div class="m-5">
+            <label class="form-label d-block" for="Categorie"><strong> Categorie:</strong></label>
+            <div class="d-flex flex-wrap align-items-center justify-content-center gap-2">
+                @for (int i = 0; i < Model.Categorie.Count; i++)
+                {
+
+                    <input type="checkbox" name="SelezionaCategorie" value="@Model.Categorie[i].Value"
+                           @(Model.SelezionaCategorie != null && Model.SelezionaCategorie.Contains(Model.Categorie[i].Value) ? "checked" : "") />
+                    @Model.Categorie[i].Text
+                }
+            </div>
+            <span asp-validation-for="Foto.Categorie" class="d-inline-block mt-2 text-light bg-primary text-uppercase px-5"></span>
+        </div>
+        <div class="m-5">
+            <div class="form-field d-flex flex-column  align-items-center gap-3">
+                <img style="width:200px;" src="@Model.Foto.ImgSrc">
+                <label asp-for="ImageFormFile">Carica un immagine</label>
+                <input type="file" asp-for="ImageFormFile" />
+            </div>
+        </div>
+        <div class="text-end">
+            <input type="submit" class="btn btn-primary me-2 mb-5" value="Modifica Prodotto">
+        </div>
+    </form>
+</div>
