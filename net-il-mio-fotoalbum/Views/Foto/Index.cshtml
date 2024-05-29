@@ -8,7 +8,7 @@
     <h1 style="color: var(--my-text-color-primary);">@ViewData["Title"]</h1>
 
 
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mb-3">
         @if (User.IsInRole("Admin"))
         {
             <a href="@Url.Action("Index", "Categoria")" class="btn btn-primary me-md-2 text-white">Mostra le categorie</a>
@@ -23,14 +23,14 @@
     else
     {
 
-        <table class="table m-5 border-0">
+        <table class="table border-0">
             <thead>
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Titolo</th>
-                    <th scope="col">Descrizione</th>
-                    <th scope="col">Visibile</th>
-                    <th scope="col">Immagine</th>
+                    <th class="d-none d-md-table-cell" scope="col">Descrizione</th>
+                    <th  scope="col">Visibile</th>
+                    <th class="d-none d-md-table-cell" scope="col">Immagine</th>
 
                     @if (User.IsInRole("Admin"))
                     {
@@ -50,7 +50,7 @@
                                 <tr class="MyFoto">
                                     <th scope="row">@i</th>
                                     <td class="FilterText">@item.Titolo</td>
-                                    <td>@item.Descrizione</td>
+                                    <td class="d-none d-md-table-cell">@item.Descrizione</td>
                                     @if (item.Visibile)
                                     {
                                         <td><i class="bi bi-check-lg"></i></td>
@@ -63,13 +63,13 @@
 
                                     @if (item.ImageFile == null)
                                     {
-                                        <td>
+                                        <td class="d-none d-md-table-cell">
                                             <img style="width: 150px; height: 100px" src="~/img/image-nofound.jpg" alt=@item.Titolo>
                                         </td>
                                     }
                                     else
                                     {
-                                        <td>
+                                        <td class="d-none d-md-table-cell">
                                             <img style="width: 150px; height: 100px" src="@item.ImgSrc" alt=@item.Titolo>
                                         </td>
                                     }
