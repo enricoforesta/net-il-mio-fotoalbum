@@ -1,0 +1,84 @@
+﻿<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner js-carousel">
+        <!-- Elementi del carosello generati dinamicamente -->
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<div class="text-center m-2">
+    <input class="js_search" placeholder="Cerca per Titolo" />
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    function GetFoto(TitoloFilter) {
+        axios.get('api/FotoWeb/MostraFoto', {
+            params: {
+                name: TitoloFilter
+            }
+        })
+            .then(response => {
+                console.log(response.data);
+                const carouselInner = document.querySelector('.js-carousel');
+
+                if (response.data.length === 0) {
+                    carouselInner.classList.add('d-none');
+                } else {
+                    carouselInner.classList.remove('d-none');
+
+
+                    carouselInner.innerHTML = '';
+
+                    response.data.forEach((foto, index) => {
+
+                        const item = document.createElement('div');
+                        item.classList.add('carousel-item');
+                        if (index === 0) {
+                            item.classList.add('active');
+                        }
+
+
+                        item.innerHTML = `
+                        <img src="${foto.imgSrc}" class="d-block w-100" alt="${foto.titolo}">
+                        <div class="carousel-caption">
+                            <h3>${foto.titolo}</h3>
+                            <p>${foto.descrizione}</p>
+                        </div>
+                    `;
+                        carouselInner.appendChild(item);
+                    });
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    GetFoto();
+
+    function search() {
+
+        console.log(this.value);
+        GetFoto(this.value);
+    }
+    document.querySelector('.js_search').addEventListener('keyup', search)
+</script>
+
+<style>
+    .carousel-item img {
+        width: 100%;
+        height: 500px;
+        object-fit: contain;
+    }
+
+    .carousel-control-next,
+    .carousel-control-prev {
+        filter: invert(100%);
+    }
+</style>

@@ -9,7 +9,7 @@ namespace net_il_mio_fotoalbum.Data
         {
             using FotoContext db = new FotoContext();
 
-            return db.Foto.ToList();
+            return db.Foto?.ToList();
         }
 
         public static Foto CercaPerId(int id, bool include = true)
