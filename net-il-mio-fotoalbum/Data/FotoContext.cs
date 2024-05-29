@@ -12,6 +12,7 @@ namespace net_il_mio_fotoalbum.Data
 
         public DbSet<Foto> Foto { get; set; }
         public DbSet<Categoria> Categoria { get; set; }
+        public DbSet<Recensione> Recensione { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
