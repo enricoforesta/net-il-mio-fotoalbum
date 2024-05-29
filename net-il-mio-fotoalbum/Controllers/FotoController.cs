@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using net_il_mio_fotoalbum.Data;
 using net_il_mio_fotoalbum.Models;
 
@@ -12,7 +13,7 @@ namespace net_il_mio_fotoalbum.Controllers
         {
             _logger = logger;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             return View(FotoManager.TutteFoto());
